@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="images/brain.png" type="image/png">
+  <title>Empathy Soul | Categories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="empathy-soul-styles.css">
+  <style>
+    /* Force dark background and text colors */
+    body {
+      background: linear-gradient(135deg, #070723, #000) !important;
+      color: #fff !important;
+    }
+    
+    nav {
+      background: linear-gradient(90deg, #060631, #000) !important;
+    }
+    
+    /* Additional page-specific styles */
+    .categories-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .categories-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    
+    .category-card {
+      min-height: 280px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 15px;
+      padding: 2rem;
+      transition: var(--transition);
+      text-align: center;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--box-shadow);
+      background: var(--card-hover-bg);
+      border-color: var(--card-hover-border);
+    }
+    
+    .category-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 240, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    
+    .topic-list {
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+    
+    .topic-list li {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .topic-list li:before {
+      content: '•';
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+    
+    .section-description {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      opacity: 0.8;
+    }
+    
+    .category-count {
+      display: inline-block;
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      transition: var(--transition);
+    }
+    
+    .category-card:hover .category-count {
+      background: rgba(0, 240, 255, 0.2);
+    }
+    
+    .category-title {
+      font-size: 1.5rem;
+      margin: 0 0 1rem;
+      color: var(--text-color);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo">EMPATHY SOUL Q&A</a>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="categories.html" class="active">Categories</a>
+      <a href="q-a.html">Q&A Forum</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </nav>
+
+  <div class="categories-container">
+    <div class="categories-header">
+      <h1 class="section-title">Explore Categories</h1>
+      <p class="section-description">Browse our knowledge base by category to find the information you need</p>
+    </div>
+
+    <div class="category-grid">
+      <div class="card category-card">
+        <i class="fas fa-brain category-icon"></i>
+        <h3 class="category-title">Mental Wellness</h3>
+        <p>Explore topics related to mental health, stress management, and emotional well-being</p>
+        <ul class="topic-list">
+          <li>Stress Management</li>
+          <li>Anxiety & Depression</li>
+          <li>Emotional Regulation</li>
+          <li>Mental Health Resources</li>
+        </ul>
+        <div class="category-stats">
+          <span class="category-count"><i class="fas fa-question-circle"></i> 42 Questions</span>
+          <span class="category-count"><i class="fas fa-users"></i> 385 Participants</span>
+        </div>
+        <a href="q-a.html" class="btn-gradient">Browse Topics</a>
+      </div>
+
+      <div class="card category-card">
+        <i class="fas fa-spa category-icon"></i>
+        <h3 class="category-title">Mindfulness & Meditation</h3>
+        <p>Learn about mindfulness practices, meditation techniques, and present-moment awareness</p>
+        <ul class="topic-list">
+          <li>Meditation Techniques</li>
+          <li>Mindful Living</li>
+          <li>Breathing Exercises</li>
+          <li>Mindfulness for Beginners</li>
+        </ul>
+        <div class="category-stats">
+          <span class="category-count"><i class="fas fa-question-circle"></i> 36 Questions</span>
+          <span class="category-count"><i class="fas fa-users"></i> 274 Participants</span>
+        </div>
+        <a href="q-a.html" class="btn-gradient">Browse Topics</a>
+      </div>
+
+      <div class="card category-card">
+        <i class="fas fa-chart-line category-icon"></i>
+        <h3 class="category-title">Personal Growth</h3>
+        <p>Discover resources for self-improvement, skill development, and achieving your potential</p>
+        <ul class="topic-list">
+          <li>Goal Setting</li>
+          <li>Habit Formation</li>
+          <li>Self-Confidence</li>
+          <li>Learning & Development</li>
+        </ul>
+        <div class="category-stats">
+          <span class="category-count"><i class="fas fa-question-circle"></i> 53 Questions</span>
+          <span class="category-count"><i class="fas fa-users"></i> 418 Participants</span>
+        </div>
+        <a href="q-a.html" class="btn-gradient">Browse Topics</a>
+      </div>
+
+      <div class="card category-card">
+        <i class="fas fa-users category-icon"></i>
+        <h3 class="category-title">Relationships</h3>
+        <p>Navigate interpersonal connections, communication skills, and building healthy relationships</p>
+        <ul class="topic-list">
+          <li>Communication Skills</li>
+          <li>Conflict Resolution</li>
+          <li>Boundary Setting</li>
+          <li>Building Connections</li>
+        </ul>
+        <div class="category-stats">
+          <span class="category-count"><i class="fas fa-question-circle"></i> 38 Questions</span>
+          <span class="category-count"><i class="fas fa-users"></i> 320 Participants</span>
+        </div>
+        <a href="q-a.html" class="btn-gradient">Browse Topics</a>
+      </div>
+
+      <div class="card category-card">
+        <i class="fas fa-balance-scale category-icon"></i>
+        <h3 class="category-title">Work-Life Balance</h3>
+        <p>Find strategies for maintaining harmony between professional and personal life</p>
+        <ul class="topic-list">
+          <li>Time Management</li>
+          <li>Stress Reduction</li>
+          <li>Remote Work Balance</li>
+          <li>Burnout Prevention</li>
+        </ul>
+        <div class="category-stats">
+          <span class="category-count"><i class="fas fa-question-circle"></i> 29 Questions</span>
+          <span class="category-count"><i class="fas fa-users"></i> 245 Participants</span>
+        </div>
+        <a href="q-a.html" class="btn-gradient">Browse Topics</a>
+      </div>
+
+      <div class="card category-card">
+        <i class="fas fa-heartbeat category-icon"></i>
+        <h3 class="category-title">Physical Wellness</h3>
+        <p>Explore the connection between physical health and overall well-being</p>
+        <ul class="topic-list">
+          <li>Movement & Exercise</li>
+          <li>Sleep Quality</li>
+          <li>Nutrition</li>
+          <li>Mind-Body Connection</li>
+        </ul>
+        <div class="category-stats">
+          <span class="category-count"><i class="fas fa-question-circle"></i> 31 Questions</span>
+          <span class="category-count"><i class="fas fa-users"></i> 267 Participants</span>
+        </div>
+        <a href="q-a.html" class="btn-gradient">Browse Topics</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Empathy Soul Q&A Platform. All rights reserved.</p>
+  </footer>
+</body>
+</html>

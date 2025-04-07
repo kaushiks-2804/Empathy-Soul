@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotional Intelligence | Empathy Soul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        
+        .navbar {
+            padding: 15px 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .ei-header {
+            padding: 150px 20px 60px;
+            text-align: center;
+            background: #000;
+        }
+        
+        .ei-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .ei-content {
+            padding: 50px 0;
+        }
+        
+        .ei-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .ei-card {
+            background: rgba(10, 10, 10, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .ei-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ffe5;
+        }
+        
+        .ei-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00ffe5;
+        }
+        
+        .ei-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .ei-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+        }
+        
+        .ei-button {
+            background-color: #00ffe5;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+        
+        .ei-button:hover {
+            background-color: #6d5dfc;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                <div class="nav-links">
+                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('about') }}">About</a>
+                    <a href="{{ url_for('features') }}">Features</a>
+                    <a href="{{ url_for('emotional_intelligence') }}" class="active">Emotional Intelligence</a>
+                    <a href="{{ url_for('resource_library') }}">Resource Library</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="ei-header">
+            <div class="container">
+                <h1>Emotional Intelligence Resources</h1>
+                <p>Discover comprehensive resources to develop and enhance your emotional intelligence skills.</p>
+            </div>
+        </section>
+
+        <section class="ei-content">
+            <div class="container">
+                <div class="ei-grid">
+                    <div class="ei-card">
+                        <i class="fas fa-heart ei-icon"></i>
+                        <h3 class="ei-title">Self-Awareness</h3>
+                        <p class="ei-description">Learn to recognize and understand your own emotions, strengths, weaknesses, values, and motivations.</p>
+                    </div>
+                    
+                    <div class="ei-card">
+                        <i class="fas fa-brain ei-icon"></i>
+                        <h3 class="ei-title">Self-Management</h3>
+                        <p class="ei-description">Develop skills to manage your emotions, adapt to change, and maintain a positive outlook.</p>
+                    </div>
+                    
+                    <div class="ei-card">
+                        <i class="fas fa-users ei-icon"></i>
+                        <h3 class="ei-title">Social Awareness</h3>
+                        <p class="ei-description">Enhance your ability to understand others' emotions, organizational dynamics, and social networks.</p>
+                    </div>
+                    
+                    <div class="ei-card">
+                        <i class="fas fa-handshake ei-icon"></i>
+                        <h3 class="ei-title">Relationship Management</h3>
+                        <p class="ei-description">Master the art of building and maintaining positive relationships, inspiring others, and managing conflicts.</p>
+                    </div>
+                    
+                    <div class="ei-card">
+                        <i class="fas fa-book-reader ei-icon"></i>
+                        <h3 class="ei-title">Recommended Reading</h3>
+                        <p class="ei-description">Curated collection of books, articles, and research papers on emotional intelligence.</p>
+                    </div>
+                    
+                    <div class="ei-card">
+                        <i class="fas fa-video ei-icon"></i>
+                        <h3 class="ei-title">Video Resources</h3>
+                        <p class="ei-description">Access video lectures, workshops, and practical exercises to improve your EI skills.</p>
+                    </div>
+                    
+                    <div class="ei-card">
+                        <i class="fas fa-spa ei-icon"></i>
+                        <h3 class="ei-title">Meditation</h3>
+                        <p class="ei-description">Practice mindfulness and meditation exercises to reduce stress and improve emotional balance.</p>
+                        <a href="{{ url_for('meditation_redirect') }}" class="ei-button">Start Meditating</a>
+                    </div>
+
+                    <div class="ei-card">
+                        <i class="fas fa-chart-line ei-icon"></i>
+                        <h3 class="ei-title">Mood Tracking</h3>
+                        <p class="ei-description">Track and analyze your emotional patterns to gain insights into your mental well-being.</p>
+                        <a href="{{ url_for('moodscape_redirect') }}" class="ei-button">Track Your Moods</a>
+                    </div>
+
+                    <div class="ei-card">
+                        <i class="fas fa-question-circle ei-icon"></i>
+                        <h3 class="ei-title">Q&A Platform</h3>
+                        <p class="ei-description">Get answers to your questions about emotional intelligence and mental health.</p>
+                        <a href="{{ url_for('qa_platform_redirect') }}" class="ei-button">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | Empathy Soul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .community-container {
+            max-width: 1200px;
+            margin: 120px auto 50px;
+            padding: 0 20px;
+        }
+
+        .community-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .community-header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .community-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .new-post-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00ffe5, #6d5dfc);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .new-post-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #00ffe5;
+        }
+
+        .post-header {
+            margin-bottom: 20px;
+        }
+
+        .post-title {
+            font-size: 1.5rem;
+            margin: 0 0 10px;
+            color: #fff;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .post-meta i {
+            color: #00ffe5;
+        }
+
+        .post-content {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .read-more {
+            color: #00ffe5;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .read-more:hover {
+            opacity: 0.8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #00ffe5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                <div class="nav-links">
+                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('about') }}">About</a>
+                    <a href="{{ url_for('resources') }}">Features</a>
+                    <a href="{{ url_for('resource_library') }}">Resources</a>
+                    <a href="{{ url_for('community') }}" class="active">Community</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="community-container">
+            <div class="community-header">
+                <h1>Community Support</h1>
+                <p>Connect with others, share your experiences, and find support in our growing community.</p>
+                <a href="{{ url_for('new_post') }}" class="new-post-btn">
+                    <i class="fas fa-plus"></i> Share Your Story
+                </a>
+            </div>
+
+            <div class="posts-grid">
+                {% if posts.items %}
+                    {% for post in posts.items %}
+                    <article class="post-card">
+                        <div class="post-header">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            <div class="post-meta">
+                                <span><i class="fas fa-user"></i> {{ post.author.username }}</span>
+                                <span><i class="fas fa-calendar"></i> {{ post.date_posted.strftime('%B %d, %Y') }}</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            {{ post.content[:200] + '...' if post.content|length > 200 else post.content }}
+                        </div>
+                        <div class="post-footer">
+                            <div class="post-stats">
+                                <span class="stat"><i class="fas fa-heart"></i> {{ post.likes }}</span>
+                                <span class="stat"><i class="fas fa-comments"></i> {{ post.comments|length }}</span>
+                            </div>
+                            <a href="{{ url_for('view_post', post_id=post.id) }}" class="read-more">Read More →</a>
+                        </div>
+                    </article>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <h2>No Posts Yet</h2>
+                        <p>Be the first to share your story with our community!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <h2>Welcome to Our Community</h2>
+                        <p>Be the first to share your story and inspire others!</p>
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('new_post') }}" class="new-post-btn">
+                                <i class="fas fa-plus"></i> Create First Post
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}" class="new-post-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login to Create Post
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <script>
+    function likePost(postId) {
+        fetch(`/community/post/${postId}/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+            } else {
+                const likesElement = document.querySelector(`#likes-${postId} .likes-count`);
+                likesElement.textContent = data.likes;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    </script>
+</body>
+</html>

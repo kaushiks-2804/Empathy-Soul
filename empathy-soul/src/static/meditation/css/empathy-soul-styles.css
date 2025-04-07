@@ -1,0 +1,121 @@
+/* Empathy Soul Meditation App Dark Theme */
+:root {
+  --dark-bg: #000;
+  --dark-gradient: linear-gradient(135deg, #070723, #000);
+  --nav-gradient: linear-gradient(90deg, #060631, #000);
+  --text-color: #fff;
+  --cyan: #00f0ff;
+  --magenta: #ff00ff;
+  --primary-gradient: linear-gradient(45deg, #00f0ff, #ff00ff);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.05);
+  --card-hover-bg: rgba(255, 255, 255, 0.05);
+  --card-hover-border: rgba(0, 240, 255, 0.3);
+  --section-bg: rgba(255, 255, 255, 0.02);
+  --font-primary: 'Space Grotesk', sans-serif;
+  --font-secondary: 'Montserrat', sans-serif;
+  --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Override base styles */
+body {
+  background: var(--dark-gradient) !important;
+  color: var(--text-color) !important;
+  font-family: var(--font-secondary) !important;
+}
+
+#music-body, #scene-body, body {
+  background: var(--dark-gradient) !important;
+  color: var(--text-color) !important;
+}
+
+/* Navigation styling */
+.nav-bar, .nav {
+  background: var(--nav-gradient) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.logo-text {
+  background: var(--primary-gradient) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-weight: bold !important;
+  font-family: var(--font-primary) !important;
+}
+
+.nav-link {
+  color: var(--text-color) !important;
+  transition: all 0.3s ease !important;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: rgba(0, 240, 255, 0.1) !important;
+  color: var(--cyan) !important;
+}
+
+.nav-icon {
+  color: var(--cyan) !important;
+}
+
+/* Card styling */
+.glass-card, .card, .music-content {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--card-border) !important;
+  border-radius: 15px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.glass-card:hover, .card:hover, .music-content:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+  border-color: var(--card-hover-border) !important;
+  transform: translateY(-5px) !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary) !important;
+  color: var(--text-color) !important;
+}
+
+.main-titles {
+  background: var(--primary-gradient) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Media controls */
+.play-btn, .time-select, .time-select-container, .progress-container {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.progress {
+  background: var(--primary-gradient) !important;
+}
+
+/* Player controls */
+.controls button {
+  color: var(--cyan) !important;
+  transition: all 0.3s ease !important;
+}
+
+.controls button:hover {
+  color: var(--magenta) !important;
+  transform: scale(1.1) !important;
+}
+
+/* Filter buttons */
+.filter-btn {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--card-border) !important;
+  color: var(--text-color) !important;
+  transition: all 0.3s ease !important;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: rgba(0, 240, 255, 0.1) !important;
+  border-color: var(--cyan) !important;
+}

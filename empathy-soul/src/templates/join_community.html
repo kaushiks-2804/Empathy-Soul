@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .community-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background-color: #000;
+    }
+
+    .community-card {
+        background: rgba(0, 0, 0, 0.9);
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .community-icon {
+        color: #00ffe5;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .community-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #ffffff;
+    }
+
+    .community-description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
+    }
+
+    .community-link {
+        color: #00ffe5;
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 2px solid #00ffe5;
+        padding-bottom: 2px;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+    .community-link:hover {
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+</style>
+
+<div class="community-container">
+    <div class="community-card">
+        <div class="community-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <h1 class="community-title">Community Support</h1>
+        <p class="community-description">Connect with others on similar emotional wellness journeys for shared growth.</p>
+        <a href="{{ url_for('community') }}" class="community-link">Join the community</a>
+    </div>
+</div>
+{% endblock %}

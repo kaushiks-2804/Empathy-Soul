@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Join Our Community - Empathy Soul{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Join Our Community</h1>
+                    <p class="text-center mb-4">Connect with others, share experiences, and grow together in our supportive community.</p>
+                    
+                    <form method="POST" action="{{ url_for('join_community') }}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="interests" class="form-label">Areas of Interest</label>
+                            <select class="form-select" id="interests" name="interests" multiple>
+                                <option value="mental_health">Mental Health</option>
+                                <option value="personal_growth">Personal Growth</option>
+                                <option value="meditation">Meditation</option>
+                                <option value="stress_management">Stress Management</option>
+                                <option value="emotional_support">Emotional Support</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Why do you want to join our community?</label>
+                            <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">Join Community</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

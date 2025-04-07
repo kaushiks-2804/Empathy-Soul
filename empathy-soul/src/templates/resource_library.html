@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Library | Empathy Soul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        
+        .navbar {
+            padding: 15px 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .library-header {
+            padding: 150px 20px 60px;
+            text-align: center;
+            background: #000;
+        }
+        
+        .library-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .library-content {
+            padding: 50px 0;
+        }
+        
+        .resource-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .category-card {
+            background: rgba(10, 10, 10, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ffe5;
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00ffe5;
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .category-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+        }
+        
+        .resource-link {
+            color: #00ffe5;
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .resource-link:hover {
+            color: #6d5dfc;
+        }
+        
+        .nav-button {
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            padding-bottom: 4px;
+            position: relative;
+            letter-spacing: 0.5px;
+            margin: 0 15px;
+            opacity: 0.8;
+        }
+        
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #00ffe5;
+            opacity: 0.9;
+            transform: scaleX(0.7);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            opacity: 1;
+        }
+        
+        .nav-button:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .nav-buttons {
+            margin-top: 30px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        /* Recommendation Panel Styles */
+        .recommendation-panel {
+            display: none;
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 229, 0.3);
+            padding: 30px;
+            margin-top: 50px;
+            animation: fadeIn 0.4s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .recommendation-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .recommendation-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .recommendation-header p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .recommendation-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .recommendation-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 229, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .recommendation-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .recommendation-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+        }
+        
+        .recommendation-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .recommendation-rating {
+            color: #00ffe5;
+        }
+        
+        .recommendation-item .resource-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #00ffe5;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border: 1px solid rgba(0, 255, 229, 0.3);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .recommendation-item .resource-link:hover {
+            background-color: rgba(0, 255, 229, 0.1);
+            border-color: rgba(0, 255, 229, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .close-recommendations {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .close-recommendations:hover {
+            color: #00ffe5;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                <div class="nav-links">
+                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('about') }}">About</a>
+                    <a href="{{ url_for('resources') }}">Features</a>
+                    <a href="{{ url_for('emotional_intelligence') }}">Emotional Intelligence</a>
+                    <a href="{{ url_for('resource_library') }}" class="active">Resource Library</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="library-header">
+            <div class="container">
+                <h1>Resource Library</h1>
+                <p>Explore our comprehensive collection of resources for personal growth and emotional development.</p>
+            </div>
+        </section>
+
+        <section class="library-content">
+            <div class="container">
+                <div class="resource-categories">
+                    <div class="category-card">
+                        <i class="fas fa-book category-icon"></i>
+                        <h3 class="category-title">E-Books</h3>
+                        <p class="category-description">Access our curated collection of digital books on personal development, emotional intelligence, and mental wellness.</p>
+                        <a href="#" class="resource-link">Browse E-Books</a>
+                    </div>
+                    
+                    <div class="category-card">
+                        <i class="fas fa-video category-icon"></i>
+                        <h3 class="category-title">Video Courses</h3>
+                        <p class="category-description">Learn from expert-led video courses covering various aspects of emotional growth and self-improvement.</p>
+                        <a href="#" class="resource-link">View Courses</a>
+                    </div>
+                    
+                    <div class="category-card">
+                        <i class="fas fa-podcast category-icon"></i>
+                        <h3 class="category-title">Podcasts</h3>
+                        <p class="category-description">Listen to insightful podcasts featuring discussions on mental health, relationships, and personal growth.</p>
+                        <a href="#" class="resource-link">Listen Now</a>
+                    </div>
+                    
+                    <div class="category-card">
+                        <i class="fas fa-file-alt category-icon"></i>
+                        <h3 class="category-title">Articles & Guides</h3>
+                        <p class="category-description">Read through our collection of articles, guides, and research papers on various topics.</p>
+                        <a href="#" class="resource-link">Read Articles</a>
+                    </div>
+                    
+                    <div class="category-card">
+                        <i class="fas fa-tools category-icon"></i>
+                        <h3 class="category-title">Tools & Worksheets</h3>
+                        <p class="category-description">Download practical tools and worksheets to support your personal development journey.</p>
+                        <a href="#" class="resource-link">Download Resources</a>
+                    </div>
+                    
+                    <div class="category-card">
+                        <i class="fas fa-users category-icon"></i>
+                        <h3 class="category-title">Community Resources</h3>
+                        <p class="category-description">Access community-contributed resources and share your own materials with others.</p>
+                        <a href="#" class="resource-link">Explore Community</a>
+                    </div>
+                </div>
+                
+                <!-- Recommendation Panel -->
+                <div id="recommendation-panel" class="recommendation-panel">
+                    <div class="recommendation-header">
+                        <h2>Personalized Recommendations</h2>
+                        <p>Based on your interest in <span id="selected-category">resources</span>, we've curated these materials for you.</p>
+                    </div>
+                    <div id="recommendations-grid" class="recommendations-grid">
+                        <!-- Recommendations will be dynamically inserted here -->
+                    </div>
+                    <div style="text-align: center; margin-top: 25px;">
+                        <button id="close-recommendations" class="close-recommendations">
+                            <i class="fas fa-times"></i> Close Recommendations
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Resource recommendation system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all resource links
+            const resourceLinks = document.querySelectorAll('.resource-link');
+            const recommendationPanel = document.getElementById('recommendation-panel');
+            const selectedCategory = document.getElementById('selected-category');
+            const recommendationsGrid = document.getElementById('recommendations-grid');
+            const closeButton = document.getElementById('close-recommendations');
+            
+            // Resource recommendations data
+            const recommendationsData = {
+                'E-Books': [
+                    {
+                        title: 'The Emotional Intelligence Handbook',
+                        description: 'A comprehensive guide to understanding and developing emotional intelligence skills.',
+                        type: 'E-Book',
+                        rating: '4.8',
+                        time: '3 hrs',
+                        link: 'https://www.verywellmind.com/emotional-intelligence-4157444'
+                    },
+                    {
+                        title: 'Mindfulness in the Digital Age',
+                        description: 'Learn how to stay present and mindful in an increasingly distracted world.',
+                        type: 'E-Book',
+                        rating: '4.7',
+                        time: '2.5 hrs',
+                        link: 'https://www.mindful.org/being-mindful-in-a-digital-age/'
+                    },
+                    {
+                        title: 'Empathy at Work',
+                        description: 'Practical strategies for building empathy skills in professional environments.',
+                        type: 'E-Book',
+                        rating: '4.6',
+                        time: '4 hrs',
+                        link: 'https://www.gsb.stanford.edu/insights/cultivating-empathy-workplace'
+                    },
+                    {
+                        title: 'The Science of Human Connection',
+                        description: 'Scientific insights into how human connections form and strengthen over time.',
+                        type: 'E-Book',
+                        rating: '4.9',
+                        time: '5 hrs',
+                        link: 'https://greatergood.berkeley.edu/article/item/the_science_of_the_story'
+                    }
+                ],
+                'Video Courses': [
+                    {
+                        title: 'Mastering Emotional Awareness',
+                        description: 'A 7-day video course to help you identify and understand your emotional patterns.',
+                        type: 'Video Course',
+                        rating: '4.9',
+                        time: '3.5 hrs',
+                        link: 'https://www.youtube.com/watch?v=D9H9qTdserM'
+                    },
+                    {
+                        title: 'Communication Skills for Deep Connection',
+                        description: 'Learn powerful communication techniques to build authentic relationships.',
+                        type: 'Video Course',
+                        rating: '4.8',
+                        time: '4 hrs',
+                        link: 'https://www.youtube.com/watch?v=tIATzLf-y04'
+                    },
+                    {
+                        title: 'Conflict Resolution Workshop',
+                        description: 'Master the art of resolving conflicts with empathy and understanding.',
+                        type: 'Video Course',
+                        rating: '4.7',
+                        time: '2.5 hrs',
+                        link: 'https://www.youtube.com/watch?v=KY5TWVz5ZDU'
+                    },
+                    {
+                        title: 'Meditation for Emotional Balance',
+                        description: 'Guided meditation practices designed to promote emotional equilibrium.',
+                        type: 'Video Course',
+                        rating: '4.9',
+                        time: '1.5 hrs',
+                        link: 'https://www.youtube.com/watch?v=O-6f5wQXSu8'
+                    }
+                ],
+                'Podcasts': [
+                    {
+                        title: 'The Empathy Dialogues',
+                        description: 'Conversations with thought leaders about the power of empathy in modern life.',
+                        type: 'Podcast Series',
+                        rating: '4.7',
+                        time: '8 episodes',
+                        link: 'https://open.spotify.com/show/2tnz7pxU7MyG8BoVTlJsBS'
+                    },
+                    {
+                        title: 'Mind Matters',
+                        description: 'Exploring the intersection of psychology, neuroscience, and everyday life.',
+                        type: 'Podcast Series',
+                        rating: '4.8',
+                        time: '12 episodes',
+                        link: 'https://www.npr.org/podcasts/510308/hidden-brain'
+                    },
+                    {
+                        title: 'The Emotional Journey',
+                        description: 'Personal stories of emotional growth and transformation.',
+                        type: 'Podcast Series',
+                        rating: '4.6',
+                        time: '10 episodes',
+                        link: 'https://open.spotify.com/show/67KiQOHI4QZPylyPPPZOYE'
+                    },
+                    {
+                        title: 'Mindful Moments',
+                        description: 'Short, impactful discussions on mindfulness practices for daily life.',
+                        type: 'Podcast Series',
+                        rating: '4.9',
+                        time: '15 episodes',
+                        link: 'https://www.ten-percent.com/podcast/'
+                    }
+                ],
+                'Articles & Guides': [
+                    {
+                        title: 'Understanding Your Emotional Triggers',
+                        description: 'Learn to identify and manage situations that provoke strong emotional responses.',
+                        type: 'Article',
+                        rating: '4.8',
+                        time: '15 min',
+                        link: 'https://www.healthline.com/health/mental-health/emotional-triggers'
+                    },
+                    {
+                        title: 'The Art of Active Listening',
+                        description: 'A comprehensive guide to becoming a better listener in all relationships.',
+                        type: 'Guide',
+                        rating: '4.9',
+                        time: '20 min',
+                        link: 'https://positivepsychology.com/active-listening/'
+                    },
+                    {
+                        title: 'Emotional Intelligence in Leadership',
+                        description: 'How emotional awareness transforms leadership effectiveness.',
+                        type: 'Article',
+                        rating: '4.7',
+                        time: '12 min',
+                        link: 'https://hbr.org/2015/04/how-emotional-intelligence-became-a-key-leadership-skill'
+                    },
+                    {
+                        title: 'Building Resilience Through Adversity',
+                        description: 'Strategies for developing emotional strength during challenging times.',
+                        type: 'Guide',
+                        rating: '4.8',
+                        time: '25 min',
+                        link: 'https://www.apa.org/topics/resilience'
+                    }
+                ],
+                'Tools & Worksheets': [
+                    {
+                        title: 'Emotion Tracking Journal',
+                        description: 'A printable journal to monitor your emotional patterns over time.',
+                        type: 'Worksheet',
+                        rating: '4.8',
+                        time: 'Ongoing',
+                        link: 'https://www.therapistaid.com/therapy-worksheet/emotion-regulation-skills'
+                    },
+                    {
+                        title: 'Values Clarification Exercise',
+                        description: 'Identify and prioritize your core values for more aligned decision-making.',
+                        type: 'Worksheet',
+                        rating: '4.7',
+                        time: '30 min',
+                        link: 'https://www.therapistaid.com/therapy-worksheet/values-clarification'
+                    },
+                    {
+                        title: 'Cognitive Reframing Toolkit',
+                        description: 'Practical tools to challenge negative thought patterns.',
+                        type: 'Toolkit',
+                        rating: '4.9',
+                        time: '45 min',
+                        link: 'https://www.therapistaid.com/therapy-worksheet/cognitive-restructuring'
+                    },
+                    {
+                        title: 'Empathy Building Exercises',
+                        description: 'Interactive exercises to strengthen your empathy muscles.',
+                        type: 'Worksheet',
+                        rating: '4.8',
+                        time: '20 min',
+                        link: 'https://positivepsychology.com/empathy-worksheets/'
+                    }
+                ],
+                'Community Resources': [
+                    {
+                        title: 'Emotional Wellness Support Group',
+                        description: 'A moderated online community focused on emotional health and growth.',
+                        type: 'Group',
+                        rating: '4.9',
+                        time: 'Ongoing',
+                        link: 'https://www.7cups.com/'
+                    },
+                    {
+                        title: 'Monthly Empathy Challenge',
+                        description: 'Community-driven challenges to practice and strengthen empathy skills.',
+                        type: 'Event',
+                        rating: '4.8',
+                        time: 'Monthly',
+                        link: 'https://www.randomactsofkindness.org/'
+                    },
+                    {
+                        title: 'Peer Support Network',
+                        description: 'Connect one-on-one with others on similar emotional wellness journeys.',
+                        type: 'Network',
+                        rating: '4.7',
+                        time: 'Ongoing',
+                        link: 'https://www.supportgroups.com/'
+                    },
+                    {
+                        title: 'Resource Sharing Platform',
+                        description: 'Contribute and access user-shared resources and success stories.',
+                        type: 'Platform',
+                        rating: '4.6',
+                        time: 'Ongoing',
+                        link: 'https://www.reddit.com/r/getting_over_it/'
+                    }
+                ]
+            };
+            
+            // Add click event to each resource link
+            resourceLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Get category title from parent element
+                    const categoryTitle = this.closest('.category-card').querySelector('.category-title').innerText;
+                    
+                    // Update selected category text
+                    selectedCategory.innerText = categoryTitle;
+                    
+                    // Get recommendations for this category
+                    const recommendations = recommendationsData[categoryTitle] || [];
+                    
+                    // Clear existing recommendations
+                    recommendationsGrid.innerHTML = '';
+                    
+                    // Add recommendations to the grid
+                    recommendations.forEach(rec => {
+                        const recommendationItem = document.createElement('div');
+                        recommendationItem.className = 'recommendation-item';
+                        recommendationItem.innerHTML = `
+                            <h4 class="recommendation-title">${rec.title}</h4>
+                            <p class="recommendation-description">${rec.description}</p>
+                            <div class="recommendation-meta">
+                                <span>${rec.type} • ${rec.time}</span>
+                                <span class="recommendation-rating">★ ${rec.rating}</span>
+                            </div>
+                            <a href="${rec.link}" target="_blank" class="resource-link">View Resource</a>
+                        `;
+                        recommendationsGrid.appendChild(recommendationItem);
+                    });
+                    
+                    // Show the recommendations panel with smooth scroll
+                    recommendationPanel.style.display = 'block';
+                    
+                    // Scroll to recommendations panel
+                    recommendationPanel.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // Close button functionality
+            closeButton.addEventListener('click', function() {
+                recommendationPanel.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

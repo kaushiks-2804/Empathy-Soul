@@ -1,0 +1,295 @@
+/* Empathy Soul Q&A Platform Styles */
+:root {
+  --background-color: #000;
+  --background-gradient: linear-gradient(135deg, #070723, #000);
+  --nav-background: linear-gradient(90deg, #060631, #000);
+  --text-color: #fff;
+  --primary-color: #00f0ff;
+  --secondary-color: #ff00ff;
+  --accent-color: #6495ED;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.05);
+  --card-hover-bg: rgba(255, 255, 255, 0.05);
+  --card-hover-border: rgba(0, 240, 255, 0.3);
+  --section-bg: rgba(255, 255, 255, 0.02);
+  --font-primary: 'Space Grotesk', sans-serif;
+  --font-secondary: 'Montserrat', sans-serif;
+  --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  --transition: all 0.3s ease;
+}
+
+/* Force the background to use the dark theme */
+body {
+  font-family: var(--font-secondary) !important;
+  background: var(--background-gradient) !important;
+  color: var(--text-color) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 100vh !important;
+  line-height: 1.6 !important;
+}
+
+/* Override the navbar styling */
+nav {
+  background: var(--nav-background) !important;
+  padding: 1rem 2rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.logo {
+  font-family: var(--font-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  color: var(--text-color) !important;
+  text-decoration: none !important;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  letter-spacing: 1px !important;
+}
+
+.menu {
+  display: flex !important;
+  gap: 1.5rem !important;
+}
+
+.menu a {
+  color: var(--text-color) !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+  transition: var(--transition) !important;
+  position: relative !important;
+}
+
+.menu a:hover, .menu a.active {
+  opacity: 1 !important;
+  color: var(--primary-color) !important;
+}
+
+.menu a.active::after {
+  content: '' !important;
+  position: absolute !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+  bottom: -5px !important;
+  left: 0 !important;
+}
+
+main {
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 2rem 1rem !important;
+}
+
+.container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 1rem !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.card, .category-card, .question-card, .post {
+  background: var(--card-bg) !important;
+  border-radius: 15px !important;
+  padding: 2rem !important;
+  transition: var(--transition) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border: 1px solid var(--card-border) !important;
+}
+
+.card:hover, .category-card:hover, .question-card:hover, .post:hover {
+  transform: translateY(-10px) !important;
+  box-shadow: var(--box-shadow) !important;
+  background: var(--card-hover-bg) !important;
+  border-color: var(--card-hover-border) !important;
+}
+
+.btn {
+  display: inline-block !important;
+  padding: 0.8rem 1.5rem !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-color) !important;
+  border-radius: 50px !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  transition: var(--transition) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.btn-gradient, button[type="submit"], .search button {
+  display: inline-block !important;
+  padding: 0.8rem 1.5rem !important;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
+  color: var(--background-color) !important;
+  border-radius: 50px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  transition: var(--transition) !important;
+  border: none !important;
+  position: relative !important;
+  z-index: 1 !important;
+  cursor: pointer !important;
+}
+
+.btn-gradient:hover, button[type="submit"]:hover, .search button:hover {
+  box-shadow: 0 5px 15px rgba(0, 240, 255, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Form Styling */
+input, textarea, select {
+  width: 100% !important;
+  padding: 1rem !important;
+  margin-bottom: 1rem !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px !important;
+  color: var(--text-color) !important;
+  font-family: var(--font-secondary) !important;
+  transition: var(--transition) !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2) !important;
+}
+
+::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+footer {
+  background: var(--nav-background) !important;
+  text-align: center !important;
+  padding: 2rem 0 !important;
+  margin-top: 3rem !important;
+}
+
+/* Search bar styling */
+.search-container {
+  max-width: 600px !important;
+  margin: 2rem auto !important;
+  position: relative !important;
+}
+
+.search-container input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50px !important;
+  padding: 1rem 1.5rem !important;
+  width: 100% !important;
+  transition: var(--transition) !important;
+  color: var(--text-color) !important;
+}
+
+.search-container input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2) !important;
+}
+
+.search-container button {
+  position: absolute !important;
+  right: 5px !important;
+  top: 5px !important;
+  bottom: 5px !important;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  color: var(--background-color) !important;
+  padding: 0 1.5rem !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  transition: var(--transition) !important;
+}
+
+.search-container button:hover {
+  opacity: 0.9 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Generic Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary) !important;
+  margin-top: 0 !important;
+  line-height: 1.3 !important;
+  color: var(--text-color) !important;
+}
+
+h1 {
+  font-size: 2.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+h2 {
+  font-size: 2rem !important;
+  margin-bottom: 1.2rem !important;
+}
+
+h3 {
+  font-size: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Force question form styling */
+.question-form {
+  background: var(--card-bg) !important;
+  border-radius: 15px !important;
+  padding: 2rem !important;
+  margin-bottom: 3rem !important;
+  border: 1px solid var(--card-border) !important;
+}
+
+.question-form h2 {
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem !important;
+  color: var(--text-color) !important;
+  font-family: var(--font-primary) !important;
+}
+
+.question-form button {
+  width: 100% !important;
+  font-size: 1rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column !important;
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+  
+  .menu {
+    width: 100% !important;
+    justify-content: space-around !important;
+  }
+  
+  .hero h1 {
+    font-size: 2rem !important;
+  }
+  
+  .card {
+    padding: 1.5rem !important;
+  }
+  
+  .btn, .btn-gradient {
+    padding: 0.7rem 1.2rem !important;
+    font-size: 0.9rem !important;
+  }
+}

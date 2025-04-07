@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empathy Soul | User Profile</title>
+  <link rel="icon" href="images/brain.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="empathy-soul-styles.css">
+  <style>
+    /* Force dark background and text colors */
+    body {
+      background: linear-gradient(135deg, #070723, #000) !important;
+      color: #fff !important;
+    }
+    
+    nav {
+      background: linear-gradient(90deg, #060631, #000) !important;
+    }
+    
+    /* Page-specific styles */
+    .profile-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .profile-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .profile-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+    }
+    
+    .profile-sidebar {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      border: 1px solid var(--card-border);
+      text-align: center;
+    }
+    
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      margin: 0 auto 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .profile-avatar i {
+      font-size: 4rem;
+      color: rgba(0, 0, 0, 0.2);
+    }
+    
+    .profile-name {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .profile-username {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+    
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-item {
+      padding: 1rem;
+      background: rgba(0, 240, 255, 0.05);
+      border-radius: 10px;
+    }
+    
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      display: block;
+    }
+    
+    .profile-badges {
+      margin-top: 2rem;
+    }
+    
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .badge {
+      background: rgba(0, 240, 255, 0.1);
+      border-radius: 10px;
+      padding: 1rem 0.5rem;
+      font-size: 0.8rem;
+    }
+    
+    .badge i {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+    
+    .profile-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+    
+    .activity-card, .favorites-card, .questions-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      border: 1px solid var(--card-border);
+    }
+    
+    .activity-list, .favorites-list, .questions-list {
+      margin-top: 1.5rem;
+    }
+    
+    .activity-item, .favorite-item, .question-item {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .activity-item:last-child, .favorite-item:last-child, .question-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-icon, .favorite-icon, .question-icon {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 240, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .activity-content, .favorite-content, .question-content {
+      flex: 1;
+    }
+    
+    .activity-meta, .favorite-meta, .question-meta {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 0.3rem;
+    }
+    
+    @media (max-width: 768px) {
+      .profile-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .badges-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo">EMPATHY SOUL Q&A</a>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="q-a.html">Q&A Forum</a>
+      <a href="profile.html" class="active">Profile</a>
+    </div>
+  </nav>
+
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>User Profile</h1>
+    </div>
+
+    <div class="profile-content">
+      <!-- Profile Sidebar -->
+      <div class="profile-sidebar">
+        <div class="profile-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <h2 class="profile-name">Sarah Johnson</h2>
+        <p class="profile-username">Wellness Enthusiast</p>
+        
+        <div class="profile-stats">
+          <div class="stat-item">
+            <div class="stat-number">24</div>
+            <div class="stat-label">Questions</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">86</div>
+            <div class="stat-label">Answers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">352</div>
+            <div class="stat-label">Likes</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Badges</div>
+          </div>
+        </div>
+        
+        <button class="btn edit-profile-btn">Edit Profile</button>
+      </div>
+
+      <!-- Main Content -->
+      <div class="profile-main">
+        <!-- Recent Activity Section -->
+        <div class="profile-section">
+          <h3 class="section-title">Recent Activity</h3>
+          
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <div class="activity-content">
+              <h4>How can mindfulness practice help with anxiety?</h4>
+              <p>I've been experiencing increased anxiety lately and heard mindfulness could help. What specific practices are most effective for anxiety?</p>
+              <div class="activity-meta">
+                <span>June 15, 2024</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="fas fa-comment"></i>
+            </div>
+            <div class="activity-content">
+              <h4>Re: Building emotional resilience during difficult times</h4>
+              <p>From my experience, daily journaling and gratitude practices have been key to building resilience. Writing down three things I'm grateful for each day has shifted my perspective significantly...</p>
+              <div class="activity-meta">
+                <span>June 14, 2024</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div class="activity-content">
+              <h4>Communication techniques for resolving relationship conflicts</h4>
+              <div class="activity-meta">
+                <span>June 12, 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Badges Section -->
+        <div class="profile-section">
+          <h3 class="section-title">Badges & Achievements</h3>
+          
+          <div class="badges-grid">
+            <div class="badge">
+              <i class="fas fa-star"></i>
+              <div class="badge-name">First Question</div>
+            </div>
+            
+            <div class="badge">
+              <i class="fas fa-award"></i>
+              <div class="badge-name">Top Contributor</div>
+            </div>
+            
+            <div class="badge">
+              <i class="fas fa-certificate"></i>
+              <div class="badge-name">Helpful Answer</div>
+            </div>
+            
+            <div class="badge">
+              <i class="fas fa-users"></i>
+              <div class="badge-name">Community Builder</div>
+            </div>
+            
+            <div class="badge">
+              <i class="fas fa-heart"></i>
+              <div class="badge-name">Supporter</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Saved Questions Section -->
+        <div class="profile-section">
+          <h3 class="section-title">Saved Questions</h3>
+          
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="fas fa-bookmark"></i>
+            </div>
+            <div class="activity-content">
+              <h4>Setting boundaries for better mental health</h4>
+              <p>I struggle with setting healthy boundaries with friends and family. How can I establish and maintain boundaries without feeling guilty?</p>
+              <div class="activity-meta">
+                <span>June 10, 2024</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="fas fa-bookmark"></i>
+            </div>
+            <div class="activity-content">
+              <h4>Managing digital overwhelm and information anxiety</h4>
+              <p>With so much information and digital content competing for attention, how can I manage the feeling of being overwhelmed?</p>
+              <div class="activity-meta">
+                <span>June 5, 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Empathy Soul Q&A Platform. All rights reserved.</p>
+  </footer>
+</body>
+</html>

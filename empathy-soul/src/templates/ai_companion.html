@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Companion - Empathy Soul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .ai-companion-container {
+            flex: 1;
+            display: flex;
+            margin-top: 70px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .chat-container {
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(20, 20, 20, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            min-height: 500px;
+        }
+        
+        .chat-header {
+            padding: 15px 20px;
+            background: linear-gradient(to right, #6d5dfc, #00ffe5);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .chat-display {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: rgba(25, 25, 30, 0.9);
+        }
+        
+        .chat-message {
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bot-message {
+            background-color: rgba(109, 93, 252, 0.2);
+            border: 1px solid rgba(109, 93, 252, 0.4);
+            color: #fff;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: rgba(0, 255, 229, 0.2);
+            border: 1px solid rgba(0, 255, 229, 0.4);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            padding: 15px;
+            background-color: rgba(30, 30, 35, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .chat-input:focus {
+            border-color: #6d5dfc;
+        }
+        
+        .send-button {
+            margin-left: 10px;
+            background: linear-gradient(to right, #6d5dfc, #00ffe5);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .send-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .send-button i {
+            font-size: 18px;
+        }
+        
+        .typing-indicator {
+            align-self: flex-start;
+            padding: 8px 15px;
+            background-color: rgba(109, 93, 252, 0.1);
+            border-radius: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            display: none;
+        }
+        
+        .typing-indicator::after {
+            content: '...';
+            animation: typing 1.5s infinite;
+        }
+        
+        @keyframes typing {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+            100% { content: '.'; }
+        }
+        
+        .audio-control {
+            background: none;
+            border: none;
+            color: #00ffe5;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 5px;
+            margin-left: 5px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .audio-control:hover {
+            opacity: 1;
+        }
+        
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(109, 93, 252, 0.3);
+            border-radius: 50%;
+            border-top-color: #6d5dfc;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                <div class="nav-links">
+                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('about') }}">About</a>
+                    <a href="{{ url_for('resources') }}" class="active">Features</a>
+                    <a href="{{ url_for('resource_library') }}">Resources</a>
+                    <a href="{{ url_for('community') }}">Community</a>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('profile') }}">Profile</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}">Login</a>
+                        <a href="{{ url_for('signup') }}">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div id="loading">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text">Initializing AI Companion...</div>
+        </div>
+    </div>
+    
+    <div class="ai-companion-container">
+        <div class="chat-container">
+            <div class="chat-header">
+                AI Companion
+            </div>
+            <div class="chat-display" id="chatDisplay">
+                <div class="chat-message bot-message">
+                    Hello! I'm your AI companion. How can I help you today?
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">AI is typing</div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // DOM elements
+        const chatDisplay = document.getElementById('chatDisplay');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const loadingScreen = document.getElementById('loading');
+        
+        // Audio player
+        let currentAudio = null;
+        
+        // Initialize chat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading screen after 2 seconds
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 2000);
+            
+            // Focus on input
+            chatInput.focus();
+        });
+        
+        // Send message function
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message === '') return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            chatInput.value = '';
+            
+            // Show typing indicator
+            typingIndicator.style.display = 'block';
+            
+            // Send message to API
+            fetch('/kdc-api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Hide typing indicator
+                typingIndicator.style.display = 'none';
+                
+                // Add bot message with audio
+                addBotMessage(data.text, data.audio_url);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                typingIndicator.style.display = 'none';
+                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+            });
+        }
+        
+        // Add message to chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}-message`;
+            messageDiv.textContent = text;
+            
+            chatDisplay.appendChild(messageDiv);
+            scrollToBottom();
+        }
+        
+        // Add bot message with audio
+        function addBotMessage(text, audioUrl) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message bot-message';
+            messageDiv.textContent = text;
+            
+            // Add audio control
+            if (audioUrl) {
+                const audioButton = document.createElement('button');
+                audioButton.className = 'audio-control';
+                audioButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+                audioButton.addEventListener('click', () => {
+                    playAudio(audioUrl);
+                });
+                
+                messageDiv.appendChild(audioButton);
+            }
+            
+            chatDisplay.appendChild(messageDiv);
+            scrollToBottom();
+            
+            // Auto-play audio
+            if (audioUrl) {
+                playAudio(audioUrl);
+            }
+        }
+        
+        // Play audio function
+        function playAudio(url) {
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Create and play new audio
+            currentAudio = new Audio(url);
+            currentAudio.play();
+        }
+        
+        // Scroll to bottom of chat
+        function scrollToBottom() {
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+        
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Cleanup function for audio files
+        window.addEventListener('beforeunload', () => {
+            fetch('/kdc-api/cleanup', {
+                method: 'POST',
+            });
+        });
+    </script>
+</body>
+</html>

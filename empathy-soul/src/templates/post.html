@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .post-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .post-full {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .post-header {
+        margin-bottom: 2rem;
+    }
+
+    .post-title {
+        font-size: 2rem;
+        color: var(--text-color);
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .post-meta {
+        display: flex;
+        gap: 1rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+    }
+
+    .post-content {
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .post-actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 20px;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .action-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .action-btn.liked {
+        background: var(--primary-color);
+    }
+
+    .comments-section {
+        margin-top: 3rem;
+    }
+
+    .comments-header {
+        font-size: 1.5rem;
+        color: var(--text-color);
+        margin-bottom: 1.5rem;
+    }
+
+    .comment-form {
+        margin-bottom: 2rem;
+    }
+
+    .comment-form textarea {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        margin-bottom: 1rem;
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .submit-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .comments-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .comment {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 10px;
+        padding: 1.5rem;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+    .comment-author {
+        font-weight: 500;
+        color: var(--accent-color);
+    }
+
+    .comment-date {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+    }
+
+    .comment-content {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.6;
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--accent-color);
+        text-decoration: none;
+        margin-bottom: 1rem;
+    }
+
+    .back-btn:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="post-container">
+    <a href="{{ url_for('community') }}" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Community
+    </a>
+
+    <article class="post-full">
+        <header class="post-header">
+            <h1 class="post-title">{{ post.title }}</h1>
+            <div class="post-meta">
+                <span><i class="fas fa-user"></i> {{ post.author.username }}</span>
+                <span><i class="fas fa-calendar"></i> {{ post.date_posted.strftime('%B %d, %Y') }}</span>
+            </div>
+        </header>
+
+        <div class="post-content">
+            {{ post.content }}
+        </div>
+
+        <div class="post-actions">
+            <button class="action-btn" id="likeBtn" onclick="likePost({{ post.id }})">
+                <i class="fas fa-heart"></i>
+                <span id="likeCount">{{ post.likes }}</span> Likes
+            </button>
+            <button class="action-btn">
+                <i class="fas fa-comment"></i>
+                {{ post.comments|length }} Comments
+            </button>
+        </div>
+    </article>
+
+    <section class="comments-section">
+        <h2 class="comments-header">Comments</h2>
+        
+        <form class="comment-form" method="POST" action="{{ url_for('add_comment', post_id=post.id) }}">
+            {{ form.hidden_tag() }}
+            {{ form.content(class="form-control", placeholder="Share your thoughts...") }}
+            {{ form.submit(class="submit-btn") }}
+        </form>
+
+        <div class="comments-list">
+            {% for comment in post.comments|sort(attribute='date_posted', reverse=true) %}
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="comment-author">{{ comment.author.username }}</span>
+                    <span class="comment-date">{{ comment.date_posted.strftime('%B %d, %Y') }}</span>
+                </div>
+                <div class="comment-content">
+                    {{ comment.content }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<script>
+function likePost(postId) {
+    fetch(`/community/post/${postId}/like`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('likeCount').textContent = data.likes;
+            document.getElementById('likeBtn').classList.add('liked');
+        });
+}
+</script>
+{% endblock %}

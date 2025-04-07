@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Empathy Soul</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e3192;
+            --accent: #1bffff;
+            --text: #ffffff;
+            --bg: #000000;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: linear-gradient(120deg, var(--primary) 0%, var(--accent) 50%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            transition: all 0.4s ease;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 120px auto 40px;
+            padding: 20px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-avatar {
+            font-size: 5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            margin: 10px 0;
+            background: linear-gradient(120deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-email {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(46, 49, 146, 0.1);
+            border: 1px solid rgba(27, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .action-button {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--text);
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="{{ url_for('home') }}" class="brand-text">EmpathySoul</a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i></a></li>
+        </ul>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h1 class="profile-name">{{ current_user.username }}</h1>
+            <div class="profile-email">{{ current_user.email }}</div>
+        </div>
+
+        <div class="profile-stats">
+            <div class="stat-card">
+                <div class="stat-number">{{ current_user.journal_entries|length }}</div>
+                <div class="stat-label">Journal Entries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ current_user.mood_entries|length }}</div>
+                <div class="stat-label">Mood Entries</div>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="{{ url_for('journaling') }}" class="action-button">View Journal</a>
+            <a href="{{ url_for('mood_tracker') }}" class="action-button">Mood History</a>
+            <a href="{{ url_for('logout') }}" class="action-button">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

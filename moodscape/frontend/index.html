@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Empathy Soul | Mood Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="empathy-soul-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Direct style override to force color scheme */
+        html, body {
+            background: linear-gradient(135deg, #070723, #000) !important;
+            color: #fff !important;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>Empathy Soul</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-page="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li data-page="journal">
+                    <i class="fas fa-book"></i>
+                    <span>Journal</span>
+                </li>
+                <li data-page="analysis">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analysis</span>
+                </li>
+                <li data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div id="dashboard" class="page active">
+                <h1>Mood Dashboard</h1>
+                <div class="dashboard-grid">
+                    <div class="card mood-summary">
+                        <h2>Mood Summary</h2>
+                        <div class="mood-stats">
+                            <div class="stat">
+                                <span class="label">Average Mood</span>
+                                <span class="value" id="avg-mood">-</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Dominant Emotion</span>
+                                <span class="value" id="dominant-emotion">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card recent-entries">
+                        <h2>Recent Entries</h2>
+                        <div id="entries-list"></div>
+                    </div>
+                    <div class="card suggestions">
+                        <h2>AI Suggestions</h2>
+                        <div id="suggestions-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="journal" class="page">
+                <h1>Mood Journal</h1>
+                <div class="journal-form">
+                    <div class="mood-selector">
+                        <h2>How are you feeling today?</h2>
+                        <div class="mood-options" id="mood-options"></div>
+                    </div>
+                    <div class="journal-input">
+                        <h2>Journal Entry</h2>
+                        <textarea id="journal-text" placeholder="Write about your day..."></textarea>
+                        <button id="submit-entry" class="btn-primary">Save Entry</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="analysis" class="page">
+                <h1>Mood Analysis</h1>
+                <div class="analysis-grid">
+                    <div class="card emotion-distribution">
+                        <h2>Emotion Distribution</h2>
+                        <div class="chart-container">
+                            <canvas id="emotion-chart"></canvas>
+                        </div>
+                        <div class="chart-filters">
+                            <select id="chart-type" class="chart-filter">
+                                <option value="pie">Pie Chart</option>
+                                <option value="bar">Bar Chart</option>
+                                <option value="line">Line Chart</option>
+                            </select>
+                            <select id="time-period" class="chart-filter">
+                                <option value="all">All Time</option>
+                                <option value="week">Past Week</option>
+                                <option value="month">Past Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card predictions">
+                        <h2>AI Predictions</h2>
+                        <div id="predictions-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings" class="page">
+                <h1>Settings</h1>
+                <div class="settings-grid">
+                    <div class="card theme-settings">
+                        <h2>Theme Settings</h2>
+                        <div class="setting-item">
+                            <label>Color Scheme</label>
+                            <div class="theme-options">
+                                <div class="theme-option" data-theme="light" style="background-color: #f8f9fa;"></div>
+                                <div class="theme-option selected" data-theme="dark" style="background-color: #2d3436;"></div>
+                                <div class="theme-option" data-theme="purple" style="background: linear-gradient(45deg, #00f0ff, #ff00ff);"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card notification-settings">
+                        <h2>Notification Settings</h2>
+                        <div class="setting-item">
+                            <label>Daily Reminders</label>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sample mood data
+        const moodData = [
+            { date: '2024-03-25', mood: 'Happy', note: 'Had a great day at work. Project was well received.', score: 4.5 },
+            { date: '2024-03-24', mood: 'Anxious', note: 'Worried about upcoming presentation.', score: 2.5 },
+            { date: '2024-03-23', mood: 'Calm', note: 'Spent the day reading and meditating.', score: 4 },
+            { date: '2024-03-22', mood: 'Tired', note: 'Not enough sleep last night.', score: 3 },
+            { date: '2024-03-21', mood: 'Excited', note: 'Looking forward to the weekend trip.', score: 4.8 },
+        ];
+
+        // Sample AI suggestions templates - will be dynamically filled
+        const suggestionTemplates = [
+            { type: 'positive', text: 'Your mood has been more {positive_emotion} when you {activity}. Consider adding more {activity} to your routine.' },
+            { type: 'negative', text: 'You often feel {negative_emotion} before {trigger}. Try a 5-minute {coping_strategy} beforehand.' },
+            { type: 'pattern', text: 'There\'s a pattern of {emotion} on {day_of_week}. This might be related to your {activity} schedule.' },
+            { type: 'improvement', text: 'Your overall mood has {trend} by {percent}% in the past {time_period}. Keep {action}!' },
+            { type: 'correlation', text: 'There\'s a strong correlation between {emotion1} and {emotion2} in your entries. This might indicate {insight}.' },
+            { type: 'sleep', text: 'Your mood tends to be {mood_type} after reporting {sleep_quality} sleep. Consider maintaining a consistent sleep schedule.' },
+            { type: 'recommendation', text: 'Based on your mood patterns, you might benefit from {activity} when you\'re feeling {emotion}.' },
+            { type: 'observation', text: 'You\'ve logged {emotion} {frequency} times recently. This could be influenced by {factor}.' },
+            { type: 'mindfulness', text: 'When {negative_emotion} appears in your entries, try practicing {mindfulness_technique} to help center yourself.' }
+        ];
+
+        // Lists for template filling
+        const positiveEmotions = ['Happy', 'Calm', 'Excited'];
+        const negativeEmotions = ['Anxious', 'Sad', 'Tired', 'Angry'];
+        const activities = ['exercise', 'meditation', 'reading', 'spending time outdoors', 'journaling', 'creative activities', 'social interactions'];
+        const triggers = ['meetings', 'social events', 'deadlines', 'difficult conversations', 'presentations'];
+        const copingStrategies = ['breathing exercise', 'short meditation', 'quick walk', 'stretching routine', 'mindfulness practice'];
+        const daysOfWeek = ['Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'weekends'];
+        const trends = ['improved', 'declined', 'remained stable'];
+        const timePeriods = ['week', 'two weeks', 'month'];
+        const actions = ['practicing self-care', 'maintaining your routine', 'engaging in activities you enjoy'];
+        const insights = ['a reaction to stress', 'a normal emotional cycle', 'an opportunity for self-reflection'];
+        const sleepQualities = ['good', 'poor', 'interrupted'];
+        const moodTypes = ['more positive', 'more negative', 'more balanced'];
+        const frequencies = ['several', 'many', 'a few', 'consistently'];
+        const factors = ['external stressors', 'your daily routine', 'seasonal changes', 'work-life balance'];
+        const mindfulnessTechniques = ['deep breathing', 'body scanning', 'grounding exercises', 'mindful walking', 'progressive relaxation'];
+
+        // Mood options
+        const moodOptions = [
+            { name: 'Happy', emoji: '😊', color: '#ffd700', score: 5 },
+            { name: 'Calm', emoji: '😌', color: '#00b894', score: 4 },
+            { name: 'Neutral', emoji: '😐', color: '#74b9ff', score: 3 },
+            { name: 'Tired', emoji: '😫', color: '#a29bfe', score: 2 },
+            { name: 'Sad', emoji: '😢', color: '#6c5ce7', score: 1 },
+            { name: 'Anxious', emoji: '😰', color: '#fdcb6e', score: 1.5 },
+            { name: 'Excited', emoji: '🤩', color: '#e84393', score: 4.8 },
+            { name: 'Angry', emoji: '😠', color: '#d63031', score: 1.2 },
+        ];
+
+        // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-links li');
+        const entriesList = document.getElementById('entries-list');
+        const suggestionsList = document.getElementById('suggestions-list');
+        const moodOptionsContainer = document.getElementById('mood-options');
+        const avgMoodEl = document.getElementById('avg-mood');
+        const dominantEmotionEl = document.getElementById('dominant-emotion');
+        const submitEntryBtn = document.getElementById('submit-entry');
+        const journalTextarea = document.getElementById('journal-text');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const chartTypeSelect = document.getElementById('chart-type');
+        const timePeriodSelect = document.getElementById('time-period');
+        let emotionChart = null;
+        // Track current mood selection
+        let currentMoodSelection = null;
+
+        // Initialize pages
+        function initPages() {
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const targetPage = link.getAttribute('data-page');
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                        if (page.id === targetPage) {
+                            page.classList.add('active');
+                        }
+                    });
+                    
+                    // Refresh chart when switching to analysis page
+                    if (targetPage === 'analysis') {
+                        refreshChart();
+                    }
+                });
+            });
+        }
+
+        // Render mood options
+        function renderMoodOptions() {
+            if (!moodOptionsContainer) return;
+
+            moodOptions.forEach(mood => {
+                const moodEl = document.createElement('div');
+                moodEl.className = 'mood-option';
+                moodEl.setAttribute('data-mood', mood.name);
+                moodEl.setAttribute('data-score', mood.score);
+                moodEl.innerHTML = `
+                    <div class="mood-emoji">${mood.emoji}</div>
+                    <div class="mood-name">${mood.name}</div>
+                `;
+                moodEl.addEventListener('click', () => {
+                    document.querySelectorAll('.mood-option').forEach(m => m.classList.remove('selected'));
+                    moodEl.classList.add('selected');
+                    
+                    // Update current mood selection
+                    currentMoodSelection = mood.name;
+                    // Update the chart to reflect the selected mood
+                    refreshChart();
+                });
+                moodOptionsContainer.appendChild(moodEl);
+            });
+        }
+
+        // Render entries
+        function renderEntries() {
+            if (!entriesList) return;
+
+            entriesList.innerHTML = '';
+            moodData.slice(0, 3).forEach(entry => {
+                const entryEl = document.createElement('div');
+                entryEl.className = 'entry';
+                entryEl.innerHTML = `
+                    <div class="entry-header">
+                        <span class="entry-date">${entry.date}</span>
+                        <span class="entry-mood">${entry.mood}</span>
+                    </div>
+                    <p class="entry-note">${entry.note}</p>
+                `;
+                entriesList.appendChild(entryEl);
+            });
+        }
+
+        // Render suggestions
+        function renderSuggestions() {
+            if (!suggestionsList) return;
+
+            suggestionsList.innerHTML = '';
+            // Sample AI suggestions
+            const suggestions = [
+                'Your mood has been more positive on days when you exercise. Consider adding a short workout to your routine.',
+                'You often feel anxious before presentations. Try a 5-minute breathing exercise beforehand.',
+                'Your sleep patterns seem to affect your mood significantly. Consider establishing a consistent sleep schedule.',
+            ];
+            suggestions.forEach(suggestion => {
+                const suggestionEl = document.createElement('div');
+                suggestionEl.className = 'suggestion';
+                suggestionEl.textContent = suggestion;
+                suggestionsList.appendChild(suggestionEl);
+            });
+        }
+
+        // Calculate stats
+        function calculateStats() {
+            if (!avgMoodEl || !dominantEmotionEl) return;
+
+            // Average mood
+            const avgScore = moodData.reduce((sum, entry) => sum + entry.score, 0) / moodData.length;
+            avgMoodEl.textContent = avgScore.toFixed(1) + '/5';
+
+            // Dominant emotion
+            const moodCounts = {};
+            moodData.forEach(entry => {
+                moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+            });
+            const dominantMood = Object.keys(moodCounts).reduce((a, b) => 
+                moodCounts[a] > moodCounts[b] ? a : b, Object.keys(moodCounts)[0]);
+            dominantEmotionEl.textContent = dominantMood;
+        }
+
+        // Refresh chart with latest data including current mood selection
+        function refreshChart() {
+            if (!emotionChart) return;
+            
+            // Count emotions from mood data
+            const emotionCounts = {};
+            moodData.forEach(entry => {
+                emotionCounts[entry.mood] = (emotionCounts[entry.mood] || 0) + 1;
+            });
+            
+            // Add current mood selection if not already submitted
+            if (currentMoodSelection) {
+                emotionCounts[currentMoodSelection] = (emotionCounts[currentMoodSelection] || 0) + 1;
+            }
+
+            // Update chart data
+            emotionChart.data.labels = Object.keys(emotionCounts);
+            emotionChart.data.datasets[0].data = Object.values(emotionCounts);
+
+            // Update colors to match moods
+            emotionChart.data.datasets[0].backgroundColor = emotionChart.data.labels.map(label => {
+                const matchedMood = moodOptions.find(m => m.name === label);
+                return matchedMood ? matchedMood.color : '#' + Math.floor(Math.random()*16777215).toString(16);
+            });
+
+            emotionChart.update();
+            
+            // Update AI predictions based on chart data
+            updateAIPredictions(emotionCounts);
+        }
+        
+        // Generate dynamic AI predictions based on mood data
+        function updateAIPredictions(emotionCounts) {
+            const predictionsList = document.getElementById('predictions-list');
+            if (!predictionsList) return;
+            
+            // Clear previous predictions
+            predictionsList.innerHTML = '';
+            
+            // Get dominant emotions from the data
+            const sortedEmotions = Object.entries(emotionCounts)
+                .sort((a, b) => b[1] - a[1])
+                .map(entry => entry[0]);
+                
+            const dominantEmotion = sortedEmotions[0] || 'Neutral';
+            const secondEmotions = sortedEmotions.slice(1, 3);
+            
+            // Determine if dominant emotion is positive or negative
+            const isDominantPositive = positiveEmotions.includes(dominantEmotion);
+            
+            // Generate 3-4 predictions based on the mood data
+            const predictions = [];
+            
+            // Add a prediction about dominant emotion
+            if (isDominantPositive) {
+                const template = getRandomItem(suggestionTemplates.filter(t => t.type === 'positive' || t.type === 'improvement'));
+                predictions.push(fillTemplate(template.text, {
+                    positive_emotion: dominantEmotion,
+                    activity: getRandomItem(activities),
+                    trend: 'improved',
+                    percent: Math.floor(Math.random() * 20) + 10,
+                    time_period: getRandomItem(timePeriods),
+                    action: getRandomItem(actions)
+                }));
+            } else {
+                const template = getRandomItem(suggestionTemplates.filter(t => t.type === 'negative' || t.type === 'mindfulness'));
+                predictions.push(fillTemplate(template.text, {
+                    negative_emotion: dominantEmotion,
+                    trigger: getRandomItem(triggers),
+                    coping_strategy: getRandomItem(copingStrategies),
+                    mindfulness_technique: getRandomItem(mindfulnessTechniques)
+                }));
+            }
+            
+            // Add a pattern prediction
+            const patternTemplate = getRandomItem(suggestionTemplates.filter(t => t.type === 'pattern' || t.type === 'observation'));
+            predictions.push(fillTemplate(patternTemplate.text, {
+                emotion: secondEmotions[0] || dominantEmotion,
+                day_of_week: getRandomItem(daysOfWeek),
+                activity: getRandomItem(activities),
+                frequency: getRandomItem(frequencies),
+                factor: getRandomItem(factors)
+            }));
+            
+            // Add correlation or recommendation
+            if (secondEmotions.length > 0) {
+                const corrTemplate = getRandomItem(suggestionTemplates.filter(t => t.type === 'correlation' || t.type === 'recommendation'));
+                predictions.push(fillTemplate(corrTemplate.text, {
+                    emotion1: dominantEmotion,
+                    emotion2: secondEmotions[0],
+                    insight: getRandomItem(insights),
+                    activity: getRandomItem(activities),
+                    emotion: secondEmotions[0]
+                }));
+            }
+            
+            // Add sleep suggestion if not already added
+            if (Math.random() > 0.5 && predictions.length < 4) {
+                const sleepTemplate = getRandomItem(suggestionTemplates.filter(t => t.type === 'sleep'));
+                predictions.push(fillTemplate(sleepTemplate.text, {
+                    mood_type: getRandomItem(moodTypes),
+                    sleep_quality: getRandomItem(sleepQualities)
+                }));
+            }
+            
+            // Render predictions with fancy styling
+            predictions.forEach(prediction => {
+                const predictionEl = document.createElement('div');
+                predictionEl.className = 'prediction';
+                predictionEl.innerHTML = `
+                    <div class="prediction-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="prediction-text">${prediction}</div>
+                `;
+                predictionsList.appendChild(predictionEl);
+            });
+        }
+        
+        // Helper function to get random item from array
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+        
+        // Helper function to fill template with data
+        function fillTemplate(template, data) {
+            let result = template;
+            for (const [key, value] of Object.entries(data)) {
+                result = result.replace(`{${key}}`, value);
+            }
+            return result;
+        }
+
+        // Handle form submission
+        function handleSubmit() {
+            if (!submitEntryBtn || !journalTextarea) return;
+
+            submitEntryBtn.addEventListener('click', () => {
+                const selectedMood = document.querySelector('.mood-option.selected');
+                if (!selectedMood || !journalTextarea.value.trim()) {
+                    alert('Please select a mood and write an entry.');
+                    return;
+                }
+
+                const newEntry = {
+                    date: new Date().toISOString().split('T')[0],
+                    mood: selectedMood.getAttribute('data-mood'),
+                    note: journalTextarea.value.trim(),
+                    score: parseFloat(selectedMood.getAttribute('data-score'))
+                };
+
+                moodData.unshift(newEntry);
+                renderEntries();
+                calculateStats();
+                journalTextarea.value = '';
+                
+                // Reset current mood selection after submission
+                currentMoodSelection = null;
+                document.querySelectorAll('.mood-option').forEach(m => m.classList.remove('selected'));
+                
+                // Refresh chart with new data
+                refreshChart();
+                
+                alert('Entry saved successfully!');
+            });
+        }
+
+        // Theme switcher
+        function initThemeSwitcher() {
+            if (!themeOptions.length) return;
+
+            themeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const theme = option.getAttribute('data-theme');
+                    document.body.setAttribute('data-theme', theme);
+                    themeOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                });
+            });
+        }
+
+        // Initialize chart
+        function initChart() {
+            const chartCanvas = document.getElementById('emotion-chart');
+            if (!chartCanvas) return;
+
+            // Count emotions from mood data
+            const emotionCounts = {};
+            moodData.forEach(entry => {
+                emotionCounts[entry.mood] = (emotionCounts[entry.mood] || 0) + 1;
+            });
+            
+            // Add current mood selection if available
+            if (currentMoodSelection) {
+                emotionCounts[currentMoodSelection] = (emotionCounts[currentMoodSelection] || 0) + 1;
+            }
+
+            const labels = Object.keys(emotionCounts);
+            const data = Object.values(emotionCounts);
+            const colors = labels.map(label => {
+                const matchedMood = moodOptions.find(m => m.name === label);
+                return matchedMood ? matchedMood.color : '#' + Math.floor(Math.random()*16777215).toString(16);
+            });
+
+            const chartConfig = {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Emotion Distribution',
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#fff'
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.formattedValue;
+                                    const dataset = context.dataset;
+                                    const total = dataset.data.reduce((acc, data) => acc + data, 0);
+                                    const percentage = Math.round((context.raw / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            display: false
+                        }
+                    }
+                }
+            };
+
+            // Create new chart
+            emotionChart = new Chart(chartCanvas, chartConfig);
+
+            // Chart type change handler
+            if (chartTypeSelect) {
+                chartTypeSelect.addEventListener('change', updateChartType);
+            }
+
+            // Time period change handler
+            if (timePeriodSelect) {
+                timePeriodSelect.addEventListener('change', updateChartData);
+            }
+        }
+
+        // Update chart type
+        function updateChartType() {
+            if (!emotionChart || !chartTypeSelect) return;
+
+            const newType = chartTypeSelect.value;
+            emotionChart.config.type = newType;
+
+            // Adjust options based on chart type
+            if (newType === 'pie' || newType === 'doughnut') {
+                emotionChart.options.scales.y.display = false;
+            } else {
+                emotionChart.options.scales.y.display = true;
+                emotionChart.options.scales.y.ticks = {
+                    color: '#fff'
+                };
+                emotionChart.options.scales.x = {
+                    ticks: {
+                        color: '#fff'
+                    }
+                };
+            }
+
+            emotionChart.update();
+        }
+
+        // Update chart data based on time period
+        function updateChartData() {
+            if (!emotionChart || !timePeriodSelect) return;
+
+            const period = timePeriodSelect.value;
+            let filteredData = [...moodData];
+
+            // Filter data based on selected time period
+            if (period !== 'all') {
+                const today = new Date();
+                let cutoffDate = new Date();
+
+                if (period === 'week') {
+                    cutoffDate.setDate(today.getDate() - 7);
+                } else if (period === 'month') {
+                    cutoffDate.setMonth(today.getMonth() - 1);
+                }
+
+                filteredData = moodData.filter(entry => {
+                    const entryDate = new Date(entry.date);
+                    return entryDate >= cutoffDate;
+                });
+            }
+
+            // Count emotions from filtered data
+            const emotionCounts = {};
+            filteredData.forEach(entry => {
+                emotionCounts[entry.mood] = (emotionCounts[entry.mood] || 0) + 1;
+            });
+            
+            // Add current mood selection if available
+            if (currentMoodSelection) {
+                emotionCounts[currentMoodSelection] = (emotionCounts[currentMoodSelection] || 0) + 1;
+            }
+
+            // Update chart data
+            emotionChart.data.labels = Object.keys(emotionCounts);
+            emotionChart.data.datasets[0].data = Object.values(emotionCounts);
+
+            // Update colors to match moods
+            emotionChart.data.datasets[0].backgroundColor = emotionChart.data.labels.map(label => {
+                const matchedMood = moodOptions.find(m => m.name === label);
+                return matchedMood ? matchedMood.color : '#' + Math.floor(Math.random()*16777215).toString(16);
+            });
+
+            emotionChart.update();
+        }
+
+        // Force dark theme
+        document.addEventListener('DOMContentLoaded', function() {
+            document.documentElement.style.background = 'linear-gradient(135deg, #070723, #000)';
+            document.body.style.background = 'linear-gradient(135deg, #070723, #000)';
+            document.body.style.color = '#fff';
+            document.body.setAttribute('data-theme', 'dark');
+        });
+
+        // Initialize app
+        function initApp() {
+            initPages();
+            renderMoodOptions();
+            renderEntries();
+            renderSuggestions();
+            calculateStats();
+            handleSubmit();
+            initThemeSwitcher();
+            initChart();
+        }
+
+        // Call initializer
+        initApp();
+
+        // Add some CSS styles for predictions and logo
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                .prediction {
+                    display: flex;
+                    align-items: flex-start;
+                    margin-bottom: 15px;
+                    padding: 12px;
+                    background: rgba(0, 240, 255, 0.03);
+                    border-radius: 10px;
+                    transition: all 0.3s ease;
+                }
+                
+                .prediction:hover {
+                    background: rgba(0, 240, 255, 0.08);
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                }
+                
+                .prediction-icon {
+                    margin-right: 12px;
+                    color: var(--cyan);
+                    font-size: 1.2em;
+                }
+                
+                .prediction-text {
+                    flex: 1;
+                    line-height: 1.5;
+                }
+                
+                /* Enhanced logo styling */
+                .logo span {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    background: linear-gradient(45deg, #00f0ff, #ff00ff);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    font-family: var(--font-primary, 'Space Grotesk', sans-serif);
+                    letter-spacing: 0.5px;
+                }
+                
+                .logo i {
+                    font-size: 1.5rem;
+                    margin-right: 10px;
+                    color: #00f0ff;
+                }
+            </style>
+        `);
+    </script>
+</body>
+</html>

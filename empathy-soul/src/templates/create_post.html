@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .create-post-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .create-post-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .create-post-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .create-post-header p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1rem;
+    }
+
+    .create-post-form {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+        font-size: 1.1rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: white;
+        font-size: 1rem;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--accent-color);
+    }
+
+    textarea.form-control {
+        min-height: 200px;
+        resize: vertical;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .submit-btn {
+        flex: 1;
+        padding: 1rem;
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .cancel-btn {
+        flex: 1;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        transition: background 0.3s ease;
+    }
+
+    .cancel-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .guidelines {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: rgba(46, 49, 146, 0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(46, 49, 146, 0.3);
+    }
+
+    .guidelines h3 {
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+    }
+
+    .guidelines ul {
+        color: rgba(255, 255, 255, 0.8);
+        padding-left: 1.5rem;
+    }
+
+    .guidelines li {
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<div class="create-post-container">
+    <div class="create-post-header">
+        <h1>Share Your Story</h1>
+        <p>Connect with the community by sharing your experiences, thoughts, and feelings.</p>
+    </div>
+
+    <form class="create-post-form" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(class="form-control", placeholder="Give your post a meaningful title") }}
+            {% if form.title.errors %}
+                {% for error in form.title.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.content.label }}
+            {{ form.content(class="form-control", placeholder="Share your thoughts...") }}
+            {% if form.content.errors %}
+                {% for error in form.content.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            {{ form.submit(class="submit-btn") }}
+            <a href="{{ url_for('community') }}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+
+    <div class="guidelines">
+        <h3>Community Guidelines</h3>
+        <ul>
+            <li>Be respectful and supportive of others</li>
+            <li>Share authentic experiences and feelings</li>
+            <li>Maintain privacy and confidentiality</li>
+            <li>Avoid harmful or offensive content</li>
+            <li>Report inappropriate content to moderators</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

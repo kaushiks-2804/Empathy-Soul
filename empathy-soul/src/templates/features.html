@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .features-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+    }
+
+    .features-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .features-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .features-header p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .feature-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 350px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        color: var(--accent-color);
+        transition: color 0.3s ease;
+    }
+
+    .feature-card h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .feature-card p {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .feature-button {
+        display: inline-block;
+        padding: 0.8rem 1.5rem;
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .features-container {
+            padding: 1rem;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .feature-card {
+            min-height: auto;
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="features-container">
+    <div class="features-header">
+        <h1>Empathy Soul Features</h1>
+        <p>Discover the tools and resources designed to support your emotional wellness journey</p>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div>
+                <i class="fas fa-robot feature-icon"></i>
+                <h2>AI Companion</h2>
+                <p>Experience personalized emotional support and guidance through our advanced AI companion</p>
+            </div>
+            <a href="{{ url_for('ai_companion') }}" class="feature-button">Meet Your Companion</a>
+        </div>
+
+        <div class="feature-card">
+            <div>
+                <i class="fas fa-brain feature-icon"></i>
+                <h2>Emotional Intelligence</h2>
+                <p>Develop your emotional awareness and skills with our expert-curated resources</p>
+            </div>
+            <a href="{{ url_for('emotional_intelligence') }}" class="feature-button">Explore Resources</a>
+        </div>
+
+        <div class="feature-card">
+            <div>
+                <i class="fas fa-book feature-icon"></i>
+                <h2>Resource Library</h2>
+                <p>Access a comprehensive collection of materials to support your emotional wellness journey</p>
+            </div>
+            <a href="{{ url_for('resource_library') }}" class="feature-button">Browse Library</a>
+        </div>
+
+        <div class="feature-card">
+            <div>
+                <i class="fas fa-chart-line feature-icon"></i>
+                <h2>Mood Tracking</h2>
+                <p>Track and analyze your moods over time to gain insights into your emotional patterns</p>
+            </div>
+            <a href="{{ url_for('moodscape_redirect') }}" class="feature-button">Track Moods</a>
+        </div>
+
+        <div class="feature-card">
+            <div>
+                <i class="fas fa-spa feature-icon"></i>
+                <h2>Meditation</h2>
+                <p>Practice mindfulness and meditation with guided sessions to reduce stress and improve focus</p>
+            </div>
+            <a href="{{ url_for('meditation_redirect') }}" class="feature-button">Start Meditating</a>
+        </div>
+
+        <div class="feature-card">
+            <div>
+                <i class="fas fa-question-circle feature-icon"></i>
+                <h2>Q&A Platform</h2>
+                <p>Get answers to your questions about mental health, emotional wellness, and personal growth</p>
+            </div>
+            <a href="{{ url_for('qa_platform_redirect') }}" class="feature-button">Ask Questions</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

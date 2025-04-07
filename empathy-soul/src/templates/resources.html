@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features | Empathy Soul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        
+        .navbar {
+            padding: 15px 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .resources-header {
+            padding: 150px 20px 60px;
+            text-align: center;
+            background: linear-gradient(to bottom, #000000, #111111);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .resources-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .resources-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .resources-content {
+            padding: 60px 20px;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .resource-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 300px;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(109, 93, 252, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00ffe5;
+        }
+        
+        .resource-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .resource-description {
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .resource-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            color: #000;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .resource-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 229, 0.3);
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 50px 0 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-logo {
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+        }
+        
+        .logo span {
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 50px;
+        }
+        
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+        
+        .footer-section a {
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: #00ffe5;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                <div class="nav-links">
+                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('about') }}">About</a>
+                    <a href="{{ url_for('features') }}">Features</a>
+                    <a href="{{ url_for('emotional_intelligence') }}">Emotional Intelligence</a>
+                    <a href="{{ url_for('resource_library') }}">Resource Library</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="resources-header">
+            <div class="container">
+                <h1>Empathy Soul Features</h1>
+                <p>Explore the tools and resources available to support your emotional wellness journey</p>
+            </div>
+        </section>
+        
+        <section class="resources-content">
+            <div class="container">
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <h3 class="resource-title">AI Companion</h3>
+                        <p class="resource-description">Connect with our empathetic AI that understands and responds to your emotional needs.</p>
+                        <a href="{{ url_for('ai_companion') }}" class="resource-button">Launch AI Companion</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <i class="fas fa-brain resource-icon"></i>
+                        <h3 class="resource-title">Emotional Intelligence</h3>
+                        <p class="resource-description">Explore comprehensive resources to develop and enhance your emotional intelligence skills.</p>
+                        <a href="{{ url_for('emotional_intelligence') }}" class="resource-button">Learn More</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <i class="fas fa-book-reader resource-icon"></i>
+                        <h3 class="resource-title">Resource Library</h3>
+                        <p class="resource-description">Access our extensive collection of books, articles, videos, and tools for personal growth.</p>
+                        <a href="{{ url_for('resource_library') }}" class="resource-button">Browse Library</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <i class="fas fa-chart-line resource-icon"></i>
+                        <h3 class="resource-title">Mood Tracking</h3>
+                        <p class="resource-description">Track and analyze your moods to gain insights into emotional patterns and triggers.</p>
+                        <a href="{{ url_for('moodscape_redirect') }}" class="resource-button">Track Moods</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <i class="fas fa-spa resource-icon"></i>
+                        <h3 class="resource-title">Meditation</h3>
+                        <p class="resource-description">Practice mindfulness and meditation with guided sessions to reduce stress and improve focus.</p>
+                        <a href="{{ url_for('meditation_redirect') }}" class="resource-button">Start Meditating</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <i class="fas fa-question-circle resource-icon"></i>
+                        <h3 class="resource-title">Q&A Platform</h3>
+                        <p class="resource-description">Get answers to your questions about mental health, emotional wellness, and personal growth.</p>
+                        <a href="{{ url_for('qa_platform_redirect') }}" class="resource-button">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                    <p>Your companion in emotional wellness</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Navigation</h4>
+                        <a href="{{ url_for('home') }}">Home</a>
+                        <a href="{{ url_for('about') }}">About</a>
+                        <a href="{{ url_for('features') }}">Features</a>
+                        <a href="{{ url_for('emotional_intelligence') }}">Emotional Intelligence</a>
+                        <a href="{{ url_for('resource_library') }}">Resource Library</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Account</h4>
+                        <a href="{{ url_for('login') }}">Login</a>
+                        <a href="{{ url_for('signup') }}">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Empathy Soul. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }} | Empathy Soul Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        
+        .post-container {
+            max-width: 900px;
+            margin: 120px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .post-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .post-header {
+            margin-bottom: 30px;
+        }
+        
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #00ffe5, #6d5dfc);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+        
+        .post-meta i {
+            color: #00ffe5;
+        }
+        
+        .post-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            color: #00ffe5;
+        }
+        
+        .comments-section {
+            margin-top: 50px;
+        }
+        
+        .comments-header {
+            margin-bottom: 30px;
+        }
+        
+        .comments-header h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .comment-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .comment-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .comment-input:focus {
+            outline: none;
+            border-color: #00ffe5;
+        }
+        
+        .submit-comment {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00ffe5, #6d5dfc);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-comment:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .comment-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .comment-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .comment-author {
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .comment-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .comment-content {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            color: #00ffe5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                <div class="nav-links">
+                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('about') }}">About</a>
+                    <a href="{{ url_for('resources') }}">Features</a>
+                    <a href="{{ url_for('resource_library') }}">Resources</a>
+                    <a href="{{ url_for('community') }}" class="active">Community</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="post-container">
+            <a href="{{ url_for('community') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Community
+            </a>
+            
+            <article class="post-card">
+                <div class="post-header">
+                    <h1 class="post-title">{{ post.title }}</h1>
+                    <div class="post-meta">
+                        <span><i class="fas fa-user"></i> {{ post.author.username }}</span>
+                        <span><i class="fas fa-calendar"></i> {{ post.date_posted.strftime('%B %d, %Y') }}</span>
+                        <span><i class="fas fa-heart"></i> {{ post.likes }} likes</span>
+                        <span><i class="fas fa-comments"></i> {{ post.comments|length }} comments</span>
+                    </div>
+                </div>
+                
+                <div class="post-content">
+                    {{ post.content }}
+                </div>
+                
+                <div class="post-actions">
+                    <a class="action-btn" onclick="likePost({{ post.id }})">
+                        <i class="fas fa-heart"></i> Like
+                    </a>
+                    <a href="#comment-form" class="action-btn">
+                        <i class="fas fa-comment"></i> Comment
+                    </a>
+                    <a class="action-btn" onclick="sharePost()">
+                        <i class="fas fa-share"></i> Share
+                    </a>
+                </div>
+            </article>
+            
+            <section class="comments-section">
+                <div class="comments-header">
+                    <h2>Comments</h2>
+                    <p>Join the discussion by sharing your thoughts</p>
+                </div>
+                
+                <form class="comment-form" id="comment-form" method="POST" action="{{ url_for('add_comment', post_id=post.id) }}">
+                    <textarea class="comment-input" name="content" placeholder="Write your comment..." required></textarea>
+                    <button type="submit" class="submit-comment">Post Comment</button>
+                </form>
+                
+                <div class="comment-list">
+                    {% if post.comments %}
+                        {% for comment in post.comments %}
+                        <div class="comment-card">
+                            <div class="comment-header">
+                                <span class="comment-author">{{ comment.author.username }}</span>
+                                <span class="comment-date">{{ comment.date_posted.strftime('%B %d, %Y') }}</span>
+                            </div>
+                            <div class="comment-content">
+                                {{ comment.content }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="comment-card" style="text-align: center;">
+                            <p>No comments yet. Be the first to share your thoughts!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        function likePost(postId) {
+            fetch(`/community/post/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const likesCount = document.querySelector('.post-meta span:nth-child(3)');
+                    likesCount.innerHTML = `<i class="fas fa-heart"></i> ${data.likes} likes`;
+                }
+            });
+        }
+
+        function sharePost() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => alert('Link copied to clipboard!'));
+            }
+        }
+    </script>
+</body>
+</html>

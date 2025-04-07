@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empathy Soul | Q&A Platform</title>
+    <link rel="icon" href="images/brain.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="empathy-soul-styles.css">
+
+    <!-- Direct style override to force color scheme -->
+    <style>
+      /* Force dark background and text colors */
+      body {
+        background: linear-gradient(135deg, #070723, #000) !important;
+        color: #fff !important;
+      }
+      
+      nav {
+        background: linear-gradient(90deg, #060631, #000) !important;
+      }
+      
+      /* Additional page-specific styling */
+      .hero {
+        text-align: center;
+        padding: 5rem 0;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      .hero h1 {
+        font-size: 3rem;
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+      }
+      
+      .hero h1 span:first-child {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .hero h1 span:last-child {
+        color: #6495ED;
+      }
+      
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 3rem auto;
+        padding: 0 2rem;
+      }
+      
+      .category-card {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 15px;
+        padding: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        height: 100%;
+      }
+      
+      .category-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(0, 240, 255, 0.3);
+      }
+      
+      .category-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        height: 70px;
+        background: rgba(0, 240, 255, 0.1);
+        border-radius: 50%;
+      }
+      
+      .category-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+      }
+      
+      .category-card p {
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        opacity: 0.8;
+        flex-grow: 1;
+      }
+      
+      .category-card .btn-gradient {
+        align-self: flex-start;
+        margin-top: auto;
+      }
+      
+      .section-title {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      
+      .section-description {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto 3rem;
+        opacity: 0.8;
+      }
+      
+      .features {
+        padding: 4rem 2rem;
+        background: rgba(255, 255, 255, 0.02);
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="logo">EMPATHY SOUL Q&A</a>
+      <div class="menu">
+        <a href="index.html" class="active">Home</a>
+        <a href="categories.html">Categories</a>
+        <a href="q-a.html">Q&A Forum</a>
+        <a href="profile.html">Profile</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <h1><span>Emotional Intelligence</span> <span>Resources</span></h1>
+        <p>Discover comprehensive resources to develop and enhance your emotional intelligence skills.</p>
+      </section>
+
+      <div class="categories-grid">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <h3>Self-Awareness</h3>
+          <p>Learn to recognize and understand your own emotions, strengths, weaknesses, values, and motivations.</p>
+          <a href="q-a.html?category=self-awareness" class="btn-gradient">Explore</a>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>Self-Management</h3>
+          <p>Develop skills to manage your emotions, adapt to change, and maintain a positive outlook.</p>
+          <a href="q-a.html?category=self-management" class="btn-gradient">Explore</a>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Social Awareness</h3>
+          <p>Enhance your ability to understand others' emotions, organizational dynamics, and social networks.</p>
+          <a href="q-a.html?category=social-awareness" class="btn-gradient">Explore</a>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h3>Relationship Management</h3>
+          <p>Learn techniques for effective communication, conflict resolution, and building meaningful connections.</p>
+          <a href="q-a.html?category=relationship-management" class="btn-gradient">Explore</a>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-balance-scale"></i>
+          </div>
+          <h3>Emotional Resilience</h3>
+          <p>Build your capacity to recover from difficulties, adapt to change, and grow from challenges.</p>
+          <a href="q-a.html?category=emotional-resilience" class="btn-gradient">Explore</a>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <h3>Mindfulness Practices</h3>
+          <p>Discover techniques for staying present, reducing stress, and improving focus and clarity.</p>
+          <a href="q-a.html?category=mindfulness" class="btn-gradient">Explore</a>
+        </div>
+      </div>
+
+      <section class="features">
+        <h2 class="section-title">How to Use These Resources</h2>
+        <p class="section-description">Our Q&A platform provides a supportive community for learning and growth. Here's how to make the most of it:</p>
+        
+        <div class="categories-grid">
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <h3>Ask Questions</h3>
+            <p>Share your questions and challenges related to any aspect of emotional intelligence.</p>
+          </div>
+
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-comment-dots"></i>
+            </div>
+            <h3>Provide Answers</h3>
+            <p>Share your knowledge and experiences to help others on their emotional intelligence journey.</p>
+          </div>
+
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-bookmark"></i>
+            </div>
+            <h3>Save Resources</h3>
+            <p>Bookmark helpful questions and answers to create your personal emotional intelligence toolkit.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Empathy Soul Q&A Platform. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

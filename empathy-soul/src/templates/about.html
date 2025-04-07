@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Empathy Soul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .about-section {
+            padding: 80px 20px;
+        }
+        
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .about-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .about-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .about-header p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .about-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+        
+        .about-img {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .about-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,240,255,0.3) 0%, rgba(0,0,0,0) 70%);
+        }
+        
+        .mission-section {
+            padding: 80px 20px;
+            background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(15,15,15,1) 100%);
+        }
+        
+        .mission-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .mission-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .mission-container p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .values-section {
+            padding: 80px 20px;
+        }
+        
+        .values-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .values-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .values-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .value-card {
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform var(--transition-medium);
+        }
+        
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+        
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .value-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .value-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        .team-section {
+            padding: 80px 20px;
+            background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(15,15,15,1) 100%);
+        }
+        
+        .team-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .team-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .team-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-card {
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform var(--transition-medium);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,240,255,0.3) 0%, rgba(0,0,0,0) 70%);
+        }
+        
+        .team-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .team-position {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .team-bio {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            padding: 15px 0;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .about-img {
+                order: -1;
+                height: 300px;
+            }
+            
+            .about-header h1, .about-text h2 {
+                font-size: 2.5rem;
+            }
+            
+            .mission-container h2, .values-header h2, .team-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="logo">Empathy<span>Soul</span></a>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('about') }}" class="active">About</a></li>
+                    <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="about-section">
+            <div class="about-container">
+                <div class="about-header">
+                    <h1>About Empathy Soul</h1>
+                    <p>Supporting emotional wellness through understanding, connection, and technology.</p>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-text fade-in">
+                        <h2>Our Story</h2>
+                        <p>Empathy Soul was born from a simple yet powerful idea: emotional wellness should be accessible to everyone. In a world where we're increasingly disconnected from our emotions, we created a platform that helps individuals reconnect with themselves and build healthier emotional lives.</p>
+                        <p>Founded in 2024, our team of technologists, and designers came together with a shared vision to leverage AI technology in service of authentic human wellbeing.</p>
+                        <p>We believe that understanding your emotional patterns is the first step toward growth, and our platform provides the tools to help you on that journey.</p>
+                    </div>
+                    
+                    <div class="about-img fade-in">
+                        <!-- Placeholder for about image -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="mission-section">
+            <div class="mission-container fade-in">
+                <h2>Our Mission</h2>
+                <p>At Empathy Soul, our mission is to empower individuals to understand and process their emotions effectively, fostering greater self-awareness, resilience, and overall wellbeing.</p>
+                <p>We believe that emotional intelligence is a skill that can be developed, and we're committed to providing the resources, support, and technology to help people on their journey toward emotional wellness.</p>
+            </div>
+        </section>
+        
+        <section class="values-section">
+            <div class="values-container">
+                <div class="values-header fade-in">
+                    <h2>Our Core Values</h2>
+                </div>
+                
+                <div class="values-grid">
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Empathy</h3>
+                        <p>We approach every interaction with genuine care and understanding, recognizing the unique emotional experiences of each individual.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>Trust & Privacy</h3>
+                        <p>We hold your personal information and emotional disclosures in the highest confidence, prioritizing security and ethical data practices.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Innovation</h3>
+                        <p>We constantly evolve our platform through research and technology to provide the most effective tools for emotional wellness.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3>Accessibility</h3>
+                        <p>We believe emotional wellness support should be available to everyone, regardless of background or circumstances.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Science-Based</h3>
+                        <p>Our approach is grounded in psychological research and best practices in mental health and emotional intelligence.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Community</h3>
+                        <p>We foster a supportive environment where users feel connected, understood, and empowered in their emotional wellness journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="team-section">
+            <div class="team-container">
+                <div class="team-header fade-in">
+                    <h2>Our Team</h2>
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-card fade-in">
+                        <div class="team-avatar"></div>
+                        <h3>Kaushik S(KDC)</h3>
+                        <p class="team-position">Develper</p>
+                        <p class="team-bio">A visionary machine learning architect specializing in the development of cutting-edge, empathetic AI-driven solutions to revolutionize mental health care through intelligent, conversational interfaces.</p>
+                    </div>
+                    
+                    <div class="team-card fade-in">
+                        <div class="team-avatar"></div>
+                        <h3>Antony Bharath J(Tony)</h3>
+                        <p class="team-position">Developer</p>
+                        <p class="team-bio">AI researcher and engineer dedicated to developing ethically-designed technology that enhances human emotional intelligence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; {{ now.year }} Empathy Soul. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let lastScrollTop = 0;
+            const navbar = document.querySelector('.navbar');
+            const threshold = 100;
+            
+            // Handle navbar visibility on scroll
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Add scrolled class for background change
+                if (scrollTop > threshold) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                
+                // Hide/show navbar based on scroll direction
+                if (scrollTop > lastScrollTop && scrollTop > threshold) {
+                    navbar.classList.add('hidden');
+                } else {
+                    navbar.classList.remove('hidden');
+                }
+                
+                lastScrollTop = scrollTop;
+            });
+            
+            // Add hover effect to navigation links
+            const navLinks = document.querySelectorAll('.nav-links a:not(.btn)');
+            navLinks.forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                link.addEventListener('mouseout', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
